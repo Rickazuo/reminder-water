@@ -12,29 +12,29 @@ export default function Timer() {
   const [isRunning, setIsRunning] = useState(false);
   const [showOverlay, setShowOverlay] = useState(false);
 
+  function verificationTimer() {
+    if (minutes === 0 && hours > 0) {
+      setHours(hours - 1);
+      setMinutes(59);
+    } else if (minutes !== 0) {
+      setMinutes(minutes - 1);
+    }
+
+    if (minutes === 0 && hours === 0) {
+      setIsRunning(false);
+      defaultTimer();
+    }
+  }
+
   useEffect(() => {
     let timer;
 
     if (isRunning) {
-      timer = setTimeout(() => {
-        if (minutes === 0 && hours > 0) {
-          setHours(hours - 1);
-          setMinutes(59);
-          console.log("entrou horas");
-        } else if (minutes !== 0) {
-          setMinutes(minutes - 1);
-          console.log("entrou minutos");
-        }
-
-        if (minutes === 0 && hours === 0) {
-          setIsRunning(false);
-          defaultTimer();
-          console.log("entrou default");
-        }
+      timer = setInterval(() => {
+        verificationTimer();
       }, 60000); // 60,000 milliseconds = 1 minute
+      return () => clearTimeout(timer);
     }
-
-    return () => clearTimeout(timer);
   }, [isRunning, hours, minutes]);
 
   const startTimer = () => {
@@ -47,6 +47,7 @@ export default function Timer() {
   const defaultTimer = () => {
     setHours(0);
     setMinutes(0);
+    setShowOverlay(true);
   };
 
   return (
@@ -66,7 +67,7 @@ export default function Timer() {
           <input
             className={styles.inputTimer}
             type="text"
-            defaultValue={String(minutes).padStart(2, "0")}
+            value={String(minutes).padStart(2, "0")}
             onChange={(e) => setMinutes(Number(e.target.value))}
           />
           <span className={styles.unityTime}>m</span>
@@ -79,6 +80,11 @@ export default function Timer() {
             setIsRunning(false); // Pause the timer
           } else {
             startTimer(); // Start the timer
+          }
+
+          if (minutes === 0 && hours > 0) {
+            setHours(hours - 1);
+            setMinutes(59);
           }
         }}
       >
