@@ -1,10 +1,11 @@
 "use client";
+import { useEffect, useState } from "react";
 import styles from "./Timer.module.css";
 import Image from "next/image";
 
 import arrow from "../../../../public/arrow.svg";
 import overlay from "../../../../public/overlay.svg";
-import { useEffect, useState } from "react";
+import closeButton from "../../../../public/closeButton.svg";
 
 export default function Timer() {
   const [hours, setHours] = useState(0);
@@ -93,7 +94,22 @@ export default function Timer() {
       </button>
       {showOverlay && (
         <div className={styles.overlay}>
-          <Image src={overlay} alt="reset overlay" width={10} height={10} />
+          <section className={styles.noticeOverlay}>
+            <Image
+              className={styles.buttonOverlay}
+              onClick={() => setShowOverlay(false)}
+              src={closeButton}
+              alt="close button icon"
+              width={26}
+              height={26}
+            />
+            <Image
+              className={styles.imageOverlay}
+              src={overlay}
+              alt="reset overlay"
+              layout="responsive"
+            />
+          </section>
         </div>
       )}
     </main>
