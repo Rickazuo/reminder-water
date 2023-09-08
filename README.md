@@ -14,7 +14,7 @@
 <br>
 
 <p align="center" id="-layout">
-  <img alt="ia platform sql" src="./public/list.gif">
+  <img alt="ia platform sql" src="./public/preview.gif">
 </p>
 
 ## 🚀 Technologies
